@@ -1,0 +1,25 @@
+{
+  "name": "angular-scaffold-1.3",
+  "version": "0.2.0",
+  "authors": [
+    "Christian West <christian@lightningkite.com>",
+    "Russell Maxfield <russ.max783@gmail.com>"
+  ],
+  "description": "Angular scaffold used by Lightning Kite",
+  "license": "MIT",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "vendor",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "angular": "~1.3.4",
+    "angular-ui-router": "~0.2.13",
+    "angular-mocks": "~1.3.9",
+    "lodash": "~2.4.1"
+  }
+}

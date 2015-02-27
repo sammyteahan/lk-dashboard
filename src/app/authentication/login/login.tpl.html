@@ -1,0 +1,9 @@
+<h1>{{ login.title }}</h1>
+
+<form name="loginForm" ng-submit="login.loginUser(loginForm.$valid)" novalidate>
+	<input type="text" placeholder="User Name" ng-model="login.user.username">
+	<input type="password" name="password" placeholder="Password" ng-model="login.user.password">
+	<button type="submit" class="form-submit form-btn">Login</button>
+</form>
+
+<a ui-sref="home">Not ready to log in? click here</a>
