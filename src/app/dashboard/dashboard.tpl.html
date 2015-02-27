@@ -1,0 +1,13 @@
+<h1>{{ vm.title }} -<span>{{ vm.team }}</span></h1>
+<br>
+<button ng-click="vm.getProjects()" style="color:black">Get My Projects</button>
+
+<br>
+<br>
+<h4>My Projects:</h4>
+<ul>
+	<li ng-repeat="project in vm.projects">{{ project.project_name }}</li>
+</ul>
+
+
+<donut-chart></donut-chart>

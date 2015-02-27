@@ -61,7 +61,8 @@ module.exports = {
     js: [
       'vendor/lodash/dist/lodash.js',
       'vendor/angular/angular.js',
-      'vendor/angular-ui-router/release/angular-ui-router.js'
+      'vendor/angular-ui-router/release/angular-ui-router.js',
+      'vendor/d3/d3.js'
     ],
     css: [
     ],

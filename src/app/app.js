@@ -3,9 +3,12 @@
     'templates-app',
     'templates-common',
     'lk.home',
+    'lk.data',
+    'lk.dashboard',
     'lk.authentication',
     'ui.router.state',
-    'ui.router'
+    'ui.router',
+    'lk.charts'
   ])
 
 

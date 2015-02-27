@@ -34,6 +34,6 @@
   function LoginCtrl ($state, AuthTokenFactory) {
     var vm = this;
 
-    vm.title = "Ready to Login?";
+    vm.title = 'Ready to Login?';
   }
 })();
