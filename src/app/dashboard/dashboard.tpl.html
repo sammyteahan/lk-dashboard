@@ -1,13 +1,19 @@
-<h1>{{ vm.title }} -<span>{{ vm.team }}</span></h1>
-<br>
-<button ng-click="vm.getProjects()" style="color:black">Get My Projects</button>
+<header>
+	<h1>{{ vm.team }} - <span>{{ vm.title }}</span></h1>
+	<br>
+	<!-- <button ng-click="vm.getProjects()" class="btn-default">Get My Projects</button> -->
+	<button ng-click="vm.changeData()" class="btn-default">Change</button>
+	<button ng-click="vm.getNext()" class="btn-default">Get Next Project</button>
+</header>
 
-<br>
-<br>
-<h4>My Projects:</h4>
-<ul>
-	<li ng-repeat="project in vm.projects">{{ project.project_name }}</li>
-</ul>
+<!-- <div class="col-left">
+	<br>
+	<h4>My Projects:</h4>
+	<ul>
+		<li ng-repeat="project in vm.projects">{{ project.project_name }}</li>
+	</ul>
+</div> -->
 
-
-<donut-chart></donut-chart>
+<div class="col-full">
+	<donut-chart data='vm.projectNums' class="theDonut"></donut-chart>
+</div>

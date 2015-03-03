@@ -32,14 +32,9 @@
  }
 
  body {
-    background: -webkit-radial-gradient(10% 20%,#717a8b 0%,#3e4553 60%);
-    background: -moz-radial-gradient(at 10% 20%,#717a8b 0%,#3e4553 60%);
-    background: radial-gradient(at 10% 20%,#717a8b 0%,#3e4553 60%);
- }
-
- body, body * {
+    background: #34495e;
+    font-family: "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif; 
     font-weight: 300;
-    color: #fff;
  }
 
  .container {
@@ -56,3 +51,59 @@
     min-height: 100%;
     margin-top: -81px;
  }
+
+ header {
+    height: 200px;
+    text-align: center;
+    padding-top: 50px;
+    h1 {
+        color: #fff;
+        font-size: 50px;
+    }
+ }
+
+.col-full {
+    position: relative;
+    width: 100%;
+    .theDonut {
+        display: block;
+        margin: 0 auto;
+        width: 750px;
+    }
+}
+
+.col-left {
+    float: left;
+    width: 50%;
+}
+
+.col-right {
+    float: right;
+    width: 50%;
+}
+
+/**
+* Buttons
+*/
+$sunflower: #f1c40f;
+
+.btn-default {
+    border: 2px solid #fff;
+    color: #fff;
+    background: transparent;
+    padding: 10px 25px;
+    font-size: 16px;
+}
+
+.btn-default:hover,
+.btn-default:active {
+
+}
+
+.btn-default:focus {
+    outline: 0 !important;
+}
+
+
+
+

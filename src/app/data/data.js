@@ -40,6 +40,26 @@
 
 
 
+  .factory('UserFactory', ['$http', function ($http) {
+
+    var baseUrl = 'https://www.pivotaltracker.com/services/v5/';
+    var config = {
+      headers: {
+        'X-TrackerToken': '67d138fc3e57c3948143a65060ebdec8'
+      }
+    };
+    
+    function getUser() {
+      return $http.get(baseUrl + 'me', config);
+    }
+  
+    return {
+      getUser: getUser
+    };
+  }])
+
+
+
   .factory('ProjectFactory', ['$http', function ($http) {
     
     var baseUrl = 'https://www.pivotaltracker.com/services/v5/';
@@ -55,12 +75,17 @@
     }
 
     function getProject(id) {
+      return $http.get(baseUrl + 'projects/' + id, config);
+    }
 
+    function getProjectStories(id) {
+      return $http.get(baseUrl + 'projects/' + id + '/stories', config);
     }
 
     return {
       getProjects: getProjects,
-      getProject: getProject
+      getProject: getProject,
+      getProjectStories: getProjectStories
     };
   }]);
 
