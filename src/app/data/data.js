@@ -68,6 +68,8 @@
         'X-TrackerToken': '67d138fc3e57c3948143a65060ebdec8'
       }
     };
+
+    var projects = [];
   
     // instead of hitting baseurl we will hit settings.rootUrl once we integrate with django
     function getProjects() {
@@ -85,7 +87,8 @@
     return {
       getProjects: getProjects,
       getProject: getProject,
-      getProjectStories: getProjectStories
+      getProjectStories: getProjectStories,
+      projects: projects
     };
   }]);
 

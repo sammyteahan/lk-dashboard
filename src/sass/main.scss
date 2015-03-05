@@ -97,7 +97,9 @@ $sunflower: #f1c40f;
 
 .btn-default:hover,
 .btn-default:active {
-
+    background: darken(#34495e, 5%);
+    cursor: pointer;
+    transition: .5s ease all;
 }
 
 .btn-default:focus {

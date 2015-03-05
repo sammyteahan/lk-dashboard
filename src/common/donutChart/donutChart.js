@@ -22,6 +22,7 @@
         var arc = d3.svg.arc()
           .outerRadius(min / 2 * 0.9)
           .innerRadius(min / 2 * 0.5);
+
         var svg = d3.select(element).append('svg')
           .attr({
             width: width,
@@ -38,18 +39,18 @@
           };
         }
         
-         // add the paths for each arc slice
+        // add the paths for each arc slice
         var arcs = svg.selectAll('path').data(pie(scope.data))
           .enter().append('path')
-            .style('stroke', 'white')
-            .attr('fill', function(d, i) { 
-              return color(i); 
-            })
-            // store the initial angles
-            .each(function(d) { 
-              this._current = d;
-              return this._current; 
-            });
+          .style('stroke', 'white')
+          .attr('fill', function(d, i) { 
+            return color(i); 
+          })
+          // store the initial angles
+          .each(function(d) { 
+            this._current = d;
+            return this._current; 
+        });
         
         // update the arcs
         scope.$watch('data', function(data){

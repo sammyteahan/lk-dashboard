@@ -10,7 +10,15 @@
         'main': {
           controller: 'DashboardCtrl',
           controllerAs: 'vm',
-          templateUrl: 'dashboard/dashboard.tpl.html'
+          templateUrl: 'dashboard/dashboard.tpl.html',
+          resolve: {
+            userData: ['UserFactory', function(UserFactory) {
+              return UserFactory.getUser();
+            }],
+            projectData: ['ProjectFactory', function(ProjectFactory) {
+              return ProjectFactory.getProjects();
+            }]
+          }
         }
       }
     });
@@ -23,11 +31,15 @@
     '$state', 
     'ProjectFactory',
     'UserFactory',
+    'userData',
+    'projectData',
   function (
     $scope, 
     $state,
     ProjectFactory,
-    UserFactory
+    UserFactory,
+    userData,
+    projectData
   ) {
     var vm = this;
     vm.title = 'Dashboard';
@@ -39,24 +51,23 @@
     vm.bugs = 1;
     vm.projectNums = [1, 1, 1, 1];
 
-    ProjectFactory.getProjects().then(onProjectsSuccess, onFailure);
+    vm.user = userData.data;
 
-    vm.getUser = function() {
-      UserFactory.getUser().then(onSuccess, onFailure);
-    };
+    // ProjectFactory.getProjects().then(onProjectsSuccess, onFailure);
+    vm.projects = projectData.data.projects;
+    vm.title = vm.projects[vm.current].project_name;
+    vm.projectIds = vm.projects.map(function (project) {
+      return project.project_id;
+    });
+    console.log(vm.projectIds);
 
     function onSuccess(response) {
       vm.user = response.data;
     }
 
     // get projects and store all id's in new array
-    function onProjectsSuccess(response) {
-      vm.projects = response.data.projects;
-      vm.title = response.data.projects[vm.current].project_name;
-      vm.projectIDs = vm.projects.map(function (project) {
-        return project.project_id;
-      });
-      vm.getProjectData(vm.projectIDs[0]);
+    function onProjectsSuccess(response) { /*** take this func out ***/
+      vm.getProjectData(vm.projectIDs[0]); /*** re-do these calls to get specific project story info ***/
       vm.getProjectStories(vm.projectIDs[0]);
     }
 
@@ -69,7 +80,7 @@
       ProjectFactory.getProject(id).then(projectSuccess, onFailure);
     };
 
-    vm.getProjectStories = function(id) {
+    vm.getProjectStories = function(id) { /*** take this out and replace with api calls with parameters ***/
       ProjectFactory.getProjectStories(id).then(storiesSuccess, onFailure);
     };
 
@@ -95,15 +106,6 @@
       vm.projectNums = [vm.bugs.length, vm.unstartedStories.length, vm.newBugs.length, vm.stories.length];
     }
 
-    vm.changeData = function() {
-      vm.projectNums = [
-        Math.floor(Math.random() * 50), 
-        Math.floor(Math.random() * 50), 
-        Math.floor(Math.random() * 50), 
-        Math.floor(Math.random() * 50)
-      ];
-    };
-
     vm.getNext = function() {
       ProjectFactory.getProjects().then(function success(response) {
         vm.projectCount = response.data.projects.length;
@@ -114,8 +116,7 @@
       }, onFailure);
       if(vm.current % vm.projectCount === 0) {
         vm.current = 0;
-        console.log(vm.current);
-        ProjectFactory.getProjectStories(vm.projectIDs[++vm.current]).then(function success(response) {
+        ProjectFactory.getProjectStories(vm.projectIDs[vm.current]).then(function success(response) {
           vm.stories = response.data;
 
           vm.unstartedStories = vm.stories.filter(function(story) {
@@ -139,8 +140,6 @@
       else {
         ProjectFactory.getProjectStories(vm.projectIDs[++vm.current]).then(function success(response) {
           vm.stories = response.data;
-          console.log(vm.current);
-
 
           vm.unstartedStories = vm.stories.filter(function(story) {
             return story.estimate != null && story.current_state === 'planned';
@@ -162,8 +161,14 @@
       }
     };
 
-    // Init user to get projects
-    vm.getUser();
+    vm.changeData = function() {
+      vm.projectNums = [
+        Math.floor(Math.random() * 50), 
+        Math.floor(Math.random() * 50), 
+        Math.floor(Math.random() * 50), 
+        Math.floor(Math.random() * 50)
+      ];
+    };
 
   }]);
 }());
