@@ -54,16 +54,15 @@
     vm.user = userData.data;
 
     // ProjectFactory.getProjects().then(onProjectsSuccess, onFailure);
+
     vm.projects = projectData.data.projects;
     vm.title = vm.projects[vm.current].project_name;
     vm.projectIds = vm.projects.map(function (project) {
       return project.project_id;
     });
-    console.log(vm.projectIds);
-
-    function onSuccess(response) {
-      vm.user = response.data;
-    }
+    // function onSuccess(response) {
+    //   vm.user = response.data;
+    // }
 
     // get projects and store all id's in new array
     function onProjectsSuccess(response) { /*** take this func out ***/
@@ -169,6 +168,14 @@
         Math.floor(Math.random() * 50)
       ];
     };
+
+    // vm.printNext() = function() {
+    //   vm.current++;
+    //   if(vm.current % vm.projects.length === 0) {
+    //     vm.current = 0;
+    //     console.log(vm.projects[vm.current]);
+    //   }
+    // }
 
   }]);
 }());

@@ -61,15 +61,24 @@
 
 
   .factory('ProjectFactory', ['$http', function ($http) {
+
+    function Project(id, name, color) {
+      this.id = id;
+      this.name = name;
+      this.color = color;
+    }
+
+    Project.prototype.print = function() {
+      console.log(this.name + " " + this.id);
+    };
     
+    var projects = [];
     var baseUrl = 'https://www.pivotaltracker.com/services/v5/';
     var config = {
       headers: {
         'X-TrackerToken': '67d138fc3e57c3948143a65060ebdec8'
       }
     };
-
-    var projects = [];
   
     // instead of hitting baseurl we will hit settings.rootUrl once we integrate with django
     function getProjects() {
@@ -84,10 +93,15 @@
       return $http.get(baseUrl + 'projects/' + id + '/stories', config);
     }
 
+    function getUnstartedStories(projectId) {
+      return $http.get(baseUrl + 'projects/' + projectId + '/stories?with_state=planned', config);
+    }
+
     return {
       getProjects: getProjects,
       getProject: getProject,
       getProjectStories: getProjectStories,
+      getUnstartedStories: getUnstartedStories,
       projects: projects
     };
   }]);
