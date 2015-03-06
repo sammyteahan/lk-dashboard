@@ -10,15 +10,7 @@
         'main': {
           controller: 'DashboardCtrl',
           controllerAs: 'vm',
-          templateUrl: 'dashboard/dashboard.tpl.html',
-          resolve: {
-            userData: ['UserFactory', function(UserFactory) {
-              return UserFactory.getUser();
-            }],
-            projectData: ['ProjectFactory', function(ProjectFactory) {
-              return ProjectFactory.getProjects();
-            }]
-          }
+          templateUrl: 'dashboard/dashboard.tpl.html'
         }
       }
     });
@@ -31,15 +23,11 @@
     '$state', 
     'ProjectFactory',
     'UserFactory',
-    'userData',
-    'projectData',
   function (
     $scope, 
     $state,
     ProjectFactory,
-    UserFactory,
-    userData,
-    projectData
+    UserFactory
   ) {
     var vm = this;
     vm.title = 'Dashboard';
@@ -49,25 +37,26 @@
     vm.finishedStories = 1;
     vm.currentStories = 1;
     vm.bugs = 1;
-    // vm.projectNums = [1, 1, 1, 1];
-    vm.projectNums = [Math.floor(Math.random()*100), Math.floor(Math.random()*100), Math.floor(Math.random()*100), Math.floor(Math.random()*100)];
+    vm.projectNums = [1, 1, 1, 1];
 
-    vm.user = userData.data;
+    ProjectFactory.getProjects().then(onProjectsSuccess, onFailure);
 
-    // ProjectFactory.getProjects().then(onProjectsSuccess, onFailure);
+    vm.getUser = function() {
+      UserFactory.getUser().then(onSuccess, onFailure);
+    };
 
-    vm.projects = projectData.data.projects;
-    vm.title = vm.projects[vm.current].project_name;
-    vm.projectIds = vm.projects.map(function (project) {
-      return project.project_id;
-    });
-    // function onSuccess(response) {
-    //   vm.user = response.data;
-    // }
+    function onSuccess(response) {
+      vm.user = response.data;
+    }
 
     // get projects and store all id's in new array
-    function onProjectsSuccess(response) { /*** take this func out ***/
-      vm.getProjectData(vm.projectIDs[0]); /*** re-do these calls to get specific project story info ***/
+    function onProjectsSuccess(response) {
+      vm.projects = response.data.projects;
+      vm.title = response.data.projects[vm.current].project_name;
+      vm.projectIDs = vm.projects.map(function (project) {
+        return project.project_id;
+      });
+      vm.getProjectData(vm.projectIDs[0]);
       vm.getProjectStories(vm.projectIDs[0]);
     }
 
@@ -80,7 +69,7 @@
       ProjectFactory.getProject(id).then(projectSuccess, onFailure);
     };
 
-    vm.getProjectStories = function(id) { /*** take this out and replace with api calls with parameters ***/
+    vm.getProjectStories = function(id) {
       ProjectFactory.getProjectStories(id).then(storiesSuccess, onFailure);
     };
 
@@ -106,6 +95,15 @@
       vm.projectNums = [vm.bugs.length, vm.unstartedStories.length, vm.newBugs.length, vm.stories.length];
     }
 
+    vm.changeData = function() {
+      vm.projectNums = [
+        Math.floor(Math.random() * 50), 
+        Math.floor(Math.random() * 50), 
+        Math.floor(Math.random() * 50), 
+        Math.floor(Math.random() * 50)
+      ];
+    };
+
     vm.getNext = function() {
       ProjectFactory.getProjects().then(function success(response) {
         vm.projectCount = response.data.projects.length;
@@ -116,7 +114,8 @@
       }, onFailure);
       if(vm.current % vm.projectCount === 0) {
         vm.current = 0;
-        ProjectFactory.getProjectStories(vm.projectIDs[vm.current]).then(function success(response) {
+        console.log(vm.current);
+        ProjectFactory.getProjectStories(vm.projectIDs[++vm.current]).then(function success(response) {
           vm.stories = response.data;
 
           vm.unstartedStories = vm.stories.filter(function(story) {
@@ -140,6 +139,8 @@
       else {
         ProjectFactory.getProjectStories(vm.projectIDs[++vm.current]).then(function success(response) {
           vm.stories = response.data;
+          console.log(vm.current);
+
 
           vm.unstartedStories = vm.stories.filter(function(story) {
             return story.estimate != null && story.current_state === 'planned';
@@ -161,22 +162,8 @@
       }
     };
 
-    vm.changeData = function() {
-      vm.projectNums = [
-        Math.floor(Math.random() * 50), 
-        Math.floor(Math.random() * 50), 
-        Math.floor(Math.random() * 50), 
-        Math.floor(Math.random() * 50)
-      ];
-    };
-
-    // vm.printNext() = function() {
-    //   vm.current++;
-    //   if(vm.current % vm.projects.length === 0) {
-    //     vm.current = 0;
-    //     console.log(vm.projects[vm.current]);
-    //   }
-    // }
+    // Init user to get projects
+    vm.getUser();
 
   }]);
 }());
