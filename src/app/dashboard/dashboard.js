@@ -49,7 +49,8 @@
     vm.finishedStories = 1;
     vm.currentStories = 1;
     vm.bugs = 1;
-    vm.projectNums = [1, 1, 1, 1];
+    // vm.projectNums = [1, 1, 1, 1];
+    vm.projectNums = [Math.floor(Math.random()*100), Math.floor(Math.random()*100), Math.floor(Math.random()*100), Math.floor(Math.random()*100)];
 
     vm.user = userData.data;
 

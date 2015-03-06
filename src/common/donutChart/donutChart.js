@@ -25,9 +25,13 @@
         svg.append("g")
           .attr("class", "lines");
 
-        var width = 750,
-            height = 750,
+        var width = 450,
+            height = 450,
             radius = Math.min(width, height) / 2;
+
+        var data = [{"label":"one", "value":30}, 
+            {"label":"two", "value":50}, 
+            {"label":"three", "value":30}];
 
         var pie = d3.layout.pie()
           .sort(null)
@@ -45,14 +49,20 @@
 
         svg.attr("transform", "translate(" + width / 2 + "," + height / 2 + ")");
 
+        // do i need dis??? 
         var key = function(d){ return d.data.label; };
 
         var color = d3.scale.ordinal()
           .domain(["Unstarted Stories", "Currently working on", "Open Bugs", "Stories ready for review"])
           .range(["#2ecc71", "#e67e22", "#e74c3c", "#3498db"]);
 
+        // Put scope.data values into an array and put them in the labels map function to map to the correct ordinal numbers
         function randomData (){
           var labels = color.domain();
+          var counter = 0;
+          var values = scope.data.map(function(value) {
+            return value;
+          });
           return labels.map(function(label){
             return { label: label, value: Math.random() };
           });
@@ -65,10 +75,11 @@
             change(randomData());
           });
 
-
         function change(data) {
 
-          /* ------- PIE SLICES -------*/
+          /**
+          * PIE SLICES
+          */
           var slice = svg.select(".slices").selectAll("path.slice")
             .data(pie(data), key);
 
@@ -91,8 +102,9 @@
           slice.exit()
             .remove();
 
-          /* ------- TEXT LABELS -------*/
-
+          /**
+          * TEXT LABELS
+          */
           var text = svg.select(".labels").selectAll("text")
             .data(pie(data), key);
 
@@ -134,11 +146,12 @@
           text.exit()
             .remove();
 
-          /* ------- SLICE TO TEXT POLYLINES -------*/
-
+          /**
+          * SLICE TO TEXT POLYLINES
+          */
           var polyline = svg.select(".lines").selectAll("polyline")
             .data(pie(data), key);
-          
+
           polyline.enter()
             .append("polyline");
 
@@ -160,15 +173,15 @@
 
           // // ---- NEED TO UPDATE ON SCOPE CHANGE ---- //
           // scope.$watch('data', function(data){
-          //   slice.data(pie(data), key).transition().attrTween('d', arcTween);
+          //   slice.data(pie(data), key).transition().attrTween('d', change(randomData()));
           // });
 
-          // // our data changed! update the arc <path>s
+          // our data changed! update the arc paths
           // scope.$watch('data', function(data) {
-          //   slice.data(pie(data), key).attr('d', arc);
+          //   slice.data(pie(data), key).transition().attrTween('d', change(randomData()));
           // });
 
-        } // END OF CHANGE
+        } // END OF CHANGE FUNCTION
 
 
       }
