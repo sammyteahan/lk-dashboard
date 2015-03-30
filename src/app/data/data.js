@@ -90,7 +90,11 @@
     }
 
     function getProjectStories(id) {
-      return $http.get(baseUrl + 'projects/' + id + '/stories', config);
+      return $http.get(baseUrl + 'projects/' + id + '/stories?with_state=started', config);
+    }
+
+    function getFinishedAndReadyForReview(id) {
+      return $http.get(baseUrl + 'projects/' + id + '/stories?with_state=finished', config);
     }
 
     function getUnstartedStories(projectId) {
@@ -101,6 +105,7 @@
       getProjects: getProjects,
       getProject: getProject,
       getProjectStories: getProjectStories,
+      getFinishedAndReadyForReview: getFinishedAndReadyForReview,
       getUnstartedStories: getUnstartedStories,
       projects: projects
     };
