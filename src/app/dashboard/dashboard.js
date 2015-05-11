@@ -49,9 +49,14 @@
     vm.finishedStories = 1;
     vm.currentStories = 1;
     vm.bugs = 1;
-    
+
     // vm.projectNums = [1, 1, 1, 1];
-    vm.projectNums = [Math.floor(Math.random()*100), Math.floor(Math.random()*100), Math.floor(Math.random()*100), Math.floor(Math.random()*100)];
+    vm.projectNums = [
+      Math.floor(Math.random()*100), 
+      Math.floor(Math.random()*100), 
+      Math.floor(Math.random()*100), 
+      Math.floor(Math.random()*100)
+    ];
 
     vm.user = userData.data;
 
@@ -62,9 +67,10 @@
     vm.projectIds = vm.projects.map(function (project) {
       return project.project_id;
     });
-    // function onSuccess(response) {
-    //   vm.user = response.data;
-    // }
+
+    vm.projects.forEach(function(project) {
+      console.log(project);
+    });
 
     // get projects and store all id's in new array
     function onProjectsSuccess(response) { /*** take this func out ***/

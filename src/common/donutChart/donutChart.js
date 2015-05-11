@@ -8,30 +8,21 @@
       scope: {
         data: '='
       },
-      transclude: false,
-      bindToController: true,
+      // bindToController: true,
       templateUrl: 'donutChart/donutChart.tpl.html',
       link: function (scope, iElement, iAttrs) {
 
-        var element = iElement[0];
-        var svg = d3.select(element)
-          .append("svg")
-          .append("g");
+        // console.log(data);
 
-        svg.append("g")
-          .attr("class", "slices");
-        svg.append("g")
-          .attr("class", "labels");
-        svg.append("g")
-          .attr("class", "lines");
+        var element = iElement[0];
+        var svg = d3.select(element).append("svg").append("g");
+        svg.append("g").attr("class", "slices");
+        svg.append("g").attr("class", "labels");
+        svg.append("g").attr("class", "lines");
 
         var width = 450,
             height = 450,
             radius = Math.min(width, height) / 2;
-
-        var data = [{"label":"one", "value":30}, 
-            {"label":"two", "value":50}, 
-            {"label":"three", "value":30}];
 
         var pie = d3.layout.pie()
           .sort(null)
@@ -143,15 +134,14 @@
               };
             });
 
-          text.exit()
-            .remove();
+          text.exit().remove();
 
           /**
           * SLICE TO TEXT POLYLINES
           */
           var polyline = svg.select(".lines").selectAll("polyline")
             .data(pie(data), key);
-
+            
           polyline.enter()
             .append("polyline");
 
@@ -168,8 +158,7 @@
               };      
             });
           
-          polyline.exit()
-            .remove();
+          polyline.exit().remove();
 
           // // ---- NEED TO UPDATE ON SCOPE CHANGE ---- //
           // scope.$watch('data', function(data){

@@ -1,6 +1,5 @@
 # LK Angular Scaffold
 
-***
 
 ### Quick Start
 
@@ -12,7 +11,7 @@ Install Node.js and then:
 	$ npm install
 	$ bower install
 	$ grunt watch
-	
+  	
 
 ####This Scaffold is backend agnostic and is compatible with almost any backend. 
 
